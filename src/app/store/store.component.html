@@ -1,0 +1,106 @@
+<div
+  class="d-flex justify-content-center align-items-center"
+  style="min-height: 100vh"
+>
+  <div
+    class="card p-2"
+    style="width: 40%; min-height: 65vh; background-color: #f4f5f7"
+  >
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <span class="mr-2"><i class="fas fa-shopping-cart"></i></span>
+          <span class="mr-4 font-weight-bold"> Order Summary</span>
+        </div>
+        <button
+          class="btn"
+          style="background: none; border: none; padding: 0"
+          (click)="borrarTodo()"
+          *ngIf="productos.length != 0"
+        >
+          <span class="text-muted">Remove all</span>
+        </button>
+
+        <button
+          class="btn"
+          style="background: none; border: none; padding: 0"
+          (click)="recargarDatos()"
+          *ngIf="productos.length == 0"
+        >
+          <i class="fas fa-sync"></i> Reload
+        </button>
+      </div>
+
+      <div
+        class="row d-flex align-items-center mt-4"
+        *ngFor="let producto of productos"
+      >
+        <div class="col-1 p-0">
+          <div
+            class="card"
+            style="width: 5vh; min-height: 5vh; background-color: #dbdbdb"
+          ></div>
+        </div>
+        <div class="col-6 p-0">
+          <div class="mx-2">
+            <span class="d-block fw-normal">{{ producto.item_name }}</span>
+            <span class="d-block fw-lighter">{{
+              producto.short_description
+            }}</span>
+          </div>
+        </div>
+        <div class="col-2 p-0">
+          <button
+            class="btn btn-outline-secondary rounded-circle mr-2"
+            style="background-color: #dbdbdb; border: none"
+            (click)="quitarProducto(producto.item_id)"
+          >
+            -
+          </button>
+          <span class="mx-2">{{ producto.quantity }}</span>
+          <button
+            class="btn btn-outline-secondary rounded-circle ml-2"
+            style="background-color: #dbdbdb; border: none"
+            (click)="agregarProducto(producto.item_id)"
+          >
+            +
+          </button>
+        </div>
+        <div class="col-2 p-0 text-end">
+          <span>{{ producto.price_without_tax | currency }}</span>
+        </div>
+        <div class="col-1 p-0 text-center">
+          <button
+            class="btn"
+            style="background: none; border: none; padding: 0"
+            (click)="borrarProducto(producto.item_id)"
+          >
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="border mx-2 mt-4"></div>
+      <div *ngFor="let total of totales">
+        <div class="mt-4 d-flex justify-content-between">
+          <span>Subtotal</span>
+          <span>{{ total.price_without_tax | currency }}</span>
+        </div>
+        <div class="mt-4 d-flex justify-content-between">
+          <span>Shipping fees</span>
+          <span>{{ total.shipping_fee | currency }}</span>
+        </div>
+        <div class="mt-4 d-flex justify-content-between">
+          <span>Taxes</span>
+          <span>{{ total.tax | currency }}</span>
+        </div>
+        <div class="mt-4 d-flex justify-content-between">
+          <span class="fw-bold">Total (including tax)</span>
+          <span class="fw-bold">{{
+            total.price_without_tax + total.shipping_fee + total.tax | currency
+          }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
